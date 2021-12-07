@@ -9,7 +9,7 @@ import java.security.InvalidKeyException;
 import java.util.HashMap;
 
 public class DataController {
-    protected int currentLoggedId;
+    protected String currentLoggedId;
     protected int nextShowId;
     protected HashMap<String , UserInfo> admins; // id, info
     protected HashMap<String , CityInfo> cities;
@@ -21,7 +21,7 @@ public class DataController {
     private DataController(){
         admins= new HashMap<>();
         cities = new HashMap<>();
-        currentLoggedId = -1;
+        currentLoggedId = null;
         nextShowId = 1;
 
     }
@@ -54,6 +54,9 @@ public class DataController {
         if (admins.containsKey(user)){
             throw new KeyAlreadyExistsException(" user: " + user + " is already exist in the system");
         }
+        if (pass == null ){
+            throw new IllegalArgumentException(" password must be filled");
+        }
         UserInfo info = new UserInfo(user, pass,city);
         admins.put(user, info );
     }
@@ -65,21 +68,39 @@ public class DataController {
      * @return the id of the created show
      * @throws
      */
-    public int addNewShow(  ShowInfo showInfo){
+    public int addNewShow(String user, String pass,  ShowInfo showInfo) throws InvalidKeyException {
+        UserInfo userInfo  = admins.get(user);
+        if (validateShowCreation(showInfo, userInfo)){
+            showInfo.id = nextShowId;;
+            shows.put(nextShowId,showInfo);
 
-        shows.put(showInfo.id , showInfo);
-        return -1;
+            nextShowId++;
+            return showInfo.id;
+        }
+        else{
+            return -1;
+        }
     }
 
-    private boolean validateShowCreation(ShowInfo info){
-        return true;
+    private boolean validateShowCreation(ShowInfo show, UserInfo user ){
+        if (cities.containsKey( show.city)  &&
+            user.hasCity(show.city) &&
+            cities.get(show.city).getHalls().containsKey(show.hall) &&
+            show.lastOrderDate < show.showDate &&
+            show.lastOrderDate >0 &&
+            show.ticketCost >0
+        )
+        {
+            return show.hastime || show.showTime != null;
+        }
+        else{
+            return false;
+        }
     }
 
 
 
-    public int getCurrentLoggedId() {
-        return currentLoggedId;
-    }
+
 
 
 

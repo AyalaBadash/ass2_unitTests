@@ -3,14 +3,14 @@ package main.data;
 import java.util.HashSet;
 
 public class UserInfo {
-    String id;
-    String password;
-    String city;
+    protected String id;
+    protected String password;
+    protected HashSet<String> cities;
 
     public UserInfo( String id, String password, String city) {
         this.id = id;
         this.password = password;
-        this.city = city;
+        this.cities = new HashSet<>();
     }
 
     public String getId(){
@@ -25,12 +25,13 @@ public class UserInfo {
         this.password = password;
     }
 
-    public String getCity() {
-        return city;
+    public boolean hasCity(String city){
+        return cities.contains(city);
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void addCity(String city){
+        cities.add(city);
     }
+
 
 }
