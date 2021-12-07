@@ -22,8 +22,8 @@ public class CityInfo {
         this.halls = halls;
     }
 
-    public CityInfo(String name, HashMap<String, Integer> halls) {
+    public CityInfo(String name) {
         this.name = name;
-        this.halls = halls;
+        this.halls = new HashMap<>();
     }
 }

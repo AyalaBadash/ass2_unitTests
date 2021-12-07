@@ -1,15 +1,20 @@
 package main.data;
 
-public class UserInfo {
-    String name;
-    String password;
+import java.util.HashSet;
 
-    public String getName() {
-        return name;
+public class UserInfo {
+    String id;
+    String password;
+    String city;
+
+    public UserInfo( String id, String password, String city) {
+        this.id = id;
+        this.password = password;
+        this.city = city;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getId(){
+        return id;
     }
 
     public String getPassword() {
@@ -28,5 +33,4 @@ public class UserInfo {
         this.city = city;
     }
 
-    String city;
 }

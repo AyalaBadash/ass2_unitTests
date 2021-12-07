@@ -5,7 +5,7 @@ import main.data.ShowInfo;
 import java.util.HashMap;
 
 public class AddShowController {
-    int currntShowId;
+    int lastShowId;
     HashMap<Integer, ShowInfo> shows ;// id, info
     private static  AddShowController instance = null;
 
