@@ -5,26 +5,25 @@ import main.data.CityInfo;
 import main.data.OrderInfo;
 import main.data.ShowInfo;
 import main.data.UserInfo;
+import main.userStoriesControllers.AddShowController;
+import main.userStoriesControllers.DataController;
+import main.userStoriesControllers.OrderSeatsController;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
 public class SystemEngine {
-    int currntShowId;
-    int currentLoggedId;
-    HashMap<String , UserInfo> admins; // id, info
-    HashMap<String , CityInfo> cities;
-    HashMap<Integer, ShowInfo> shows ;// id, info
+    private AddShowController addShowController ;
+    private DataController dataController;
+    private OrderSeatsController orderSeatsController;
     private static SystemEngine instance = null;
 
+
     private SystemEngine(){
-        this.currentLoggedId = -1;
-        this.currntShowId =1;
-        this.currentLoggedId = 1;
-        cities = new HashMap<>();
-        admins = new HashMap<>();
-        shows = new HashMap<>();
+        addShowController =  new AddShowController();
+        dataController = new DataController();
+        orderSeatsController = new OrderSeatsController();
 
     }
 
