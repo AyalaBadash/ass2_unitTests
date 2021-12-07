@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ShowInfo {
+	public int id;
 	public String city;
 	public String hall;
 	public String name;
@@ -35,5 +36,9 @@ public class ShowInfo {
 		Date date = new Date(time);
 		Format format = new SimpleDateFormat("dd/MM/yyyy");
 		return format.format(date);
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
