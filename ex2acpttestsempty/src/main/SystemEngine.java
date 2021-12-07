@@ -21,9 +21,9 @@ public class SystemEngine {
 
 
     private SystemEngine(){
-        addShowController =  new AddShowController();
-        dataController = new DataController();
-        orderSeatsController = new OrderSeatsController();
+        addShowController =  AddShowController.getInstance() ;
+        dataController =  DataController.getInstance();
+        orderSeatsController = OrderSeatsController.getInstance();
 
     }
 

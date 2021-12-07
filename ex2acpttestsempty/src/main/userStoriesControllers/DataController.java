@@ -9,7 +9,10 @@ public class DataController {
     int currentLoggedId;
     HashMap<String , UserInfo> admins; // id, info
     HashMap<String , CityInfo> cities;
+    private static DataController instance = null;
 
 
-
+    public static DataController getInstance() {
+        return instance;
+    }
 }

@@ -7,5 +7,10 @@ import java.util.HashMap;
 public class AddShowController {
     int currntShowId;
     HashMap<Integer, ShowInfo> shows ;// id, info
+    private static  AddShowController instance = null;
 
+
+    public static AddShowController getInstance() {
+        return instance;
+    }
 }
