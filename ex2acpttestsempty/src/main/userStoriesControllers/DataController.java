@@ -27,6 +27,8 @@ public class DataController {
     }
 
     public static DataController getInstance() {
+        if(instance == null)
+            instance = new DataController ();
         return instance;
     }
 
@@ -73,7 +75,7 @@ public class DataController {
         if (validateShowCreation(showInfo, userInfo)){
             showInfo.id = nextShowId;;
             shows.put(nextShowId,showInfo);
-
+            showInfo.initialSeats ( cities.get (showInfo.city).getHalls ().get ( showInfo.hall ) );
             nextShowId++;
             return showInfo.id;
         }
