@@ -1,16 +1,17 @@
 package main.userStoriesControllers;
 
 import main.data.CityInfo;
+import main.data.OrderInfo;
 import main.data.ShowInfo;
 import main.data.UserInfo;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.security.InvalidKeyException;
 import java.util.HashMap;
+import java.util.List;
 
 public class DataController {
     protected String currentLoggedId;
-    protected int nextShowId;
     protected HashMap<String , UserInfo> admins; // id, info
     protected HashMap<String , CityInfo> cities;
     protected HashMap<Integer, ShowInfo> shows;
@@ -22,7 +23,6 @@ public class DataController {
         admins= new HashMap<>();
         cities = new HashMap<>();
         currentLoggedId = null;
-        nextShowId = 1;
 
     }
 
@@ -34,7 +34,6 @@ public class DataController {
 
     public void addCity(String city){
         CityInfo info =  new CityInfo(city);
-
         cities.put(city, info);
     }
 
@@ -51,7 +50,6 @@ public class DataController {
         }
     }
 
-
     public void addAdmin(String city, String user, String pass){
         if (admins.containsKey(user)){
             throw new KeyAlreadyExistsException(" user: " + user + " is already exist in the system");
@@ -63,47 +61,15 @@ public class DataController {
         admins.put(user, info );
     }
 
-
     /**
+     * Gets waiting orders
      *
-     * @param showInfo
-     * @return the id of the created show
-     * @throws
+     * @param id show id
+     * @return If succeed returns the list of waiting orders. Otherwise return empty
+     *         list.
      */
-    public int addNewShow(String user, String pass,  ShowInfo showInfo) throws InvalidKeyException {
-        UserInfo userInfo  = admins.get(user);
-        if (validateShowCreation(showInfo, userInfo)){
-            showInfo.id = nextShowId;;
-            shows.put(nextShowId,showInfo);
-            showInfo.initialSeats ( cities.get (showInfo.city).getHalls ().get ( showInfo.hall ) );
-            nextShowId++;
-            return showInfo.id;
-        }
-        else{
-            return -1;
-        }
+    public List<OrderInfo> getWaitings(int id){
+        return shows.get ( id ).getWaitings();
     }
-
-    private boolean validateShowCreation(ShowInfo show, UserInfo user ){
-        if (cities.containsKey( show.city)  &&
-            user.hasCity(show.city) &&
-            cities.get(show.city).getHalls().containsKey(show.hall) &&
-            show.lastOrderDate < show.showDate &&
-            show.lastOrderDate >0 &&
-            show.ticketCost >0
-        )
-        {
-            return show.hastime || show.showTime != null;
-        }
-        else{
-            return false;
-        }
-    }
-
-
-
-
-
-
 
 }

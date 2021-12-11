@@ -38,18 +38,11 @@ public class OrderSeatsController {
                 return -1;
         }
         for ( Integer seat: order.chairsIds ) {
-            curShow.resevrveSeat ( seat );
+            curShow.resevrveTempSeat ( seat );
         }
         return nextOrderId++;
     }
 
-    /**
-     * Gets waiting orders
-     *
-     * @param id show id
-     * @return If succeed returns the list of waiting orders. Otherwise return empty
-     *         list.
-     */
-    public List<OrderInfo> getWaitings(int id){throw new UnsupportedOperationException();}
+
 
 }
