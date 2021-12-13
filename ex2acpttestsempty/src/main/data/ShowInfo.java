@@ -1,6 +1,5 @@
 package main.data;
 
-import javax.sql.rowset.serial.SerialArray;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -22,17 +21,31 @@ public class ShowInfo {
 	public List<OrderInfo> userstoinform = new LinkedList<>();
 	private State[] seats;//0 -free, 1- reserved, 2- VIP
 
-	public List<OrderInfo> getWaitings() {
-		List<OrderInfo> waitings = new LinkedList<> (  );
-		for ( OrderInfo cur: userstoinform
-			   ) {
-
-		}
-		return null;
+	public ShowInfo() {
+		showTime = null;
 	}
 
 	public enum State {
 		reserved, VIP, free, temp
+	}
+
+
+	public List<OrderInfo> getWaitings() {
+		return userstoinform;
+	}
+
+	@Override
+	public String toString() {
+		return "ShowInfo [city=" + city + ", hall=" + hall + ", name=" + name + ", description=" + description
+				+ ", hastime=" + hastime + ", showTime=" + showTime + ", showDate=" + convertTime(showDate)
+				+ ", lastOrderDate=" + convertTime(lastOrderDate) + ", ticketCost=" + ticketCost + ", userstoinform="
+				+ userstoinform + "]";
+	}
+
+	public String convertTime(long time) {
+		Date date = new Date(time);
+		Format format = new SimpleDateFormat("dd/MM/yyyy");
+		return format.format(date);
 	}
 
 	public void setId(int id) {

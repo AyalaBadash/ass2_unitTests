@@ -1,38 +1,28 @@
-package main;
+package submit;
 
-import jdk.jshell.spi.ExecutionControl;
-import main.data.CityInfo;
 import main.data.OrderInfo;
 import main.data.ShowInfo;
-import main.data.UserInfo;
 import main.userStoriesControllers.AddShowController;
 import main.userStoriesControllers.DataController;
 import main.userStoriesControllers.OrderSeatsController;
+import test.bridge.Bridge;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
-public class SystemEngine {
+public class RealBridge implements Bridge {
     private AddShowController addShowController ;
     private DataController dataController;
     private OrderSeatsController orderSeatsController;
-    private static SystemEngine instance = null;
 
 
-    private SystemEngine(){
+    public RealBridge(){
         addShowController =  AddShowController.getInstance() ;
         dataController =  DataController.getInstance();
         orderSeatsController = OrderSeatsController.getInstance();
 
     }
 
-    public static SystemEngine getInstance() {
-        if (instance ==null){
-            instance = new SystemEngine();
-        }
-        return instance;
-    }
+
 
     /**
      * Adds new city
@@ -40,7 +30,7 @@ public class SystemEngine {
      * @param city city name
      */
     public void addCity(String city){
-        throw new UnsupportedOperationException();
+        dataController.addCity(city);
     }
 
     /**
@@ -50,7 +40,9 @@ public class SystemEngine {
      * @param hall hall name
      * @param sits number of sits
      */
-    public void addHall(String city, String hall, int sits){throw new UnsupportedOperationException();}
+    public void addHall(String city, String hall, int sits)  {
+        dataController.addHall(city, hall, sits);
+    }
 
     /**
      * Adds new admin user
@@ -59,7 +51,9 @@ public class SystemEngine {
      * @param user user name
      * @param pass user password
      */
-    public void addAdmin(String city, String user, String pass){throw new UnsupportedOperationException();}
+    public void addAdmin(String city, String user, String pass){
+        dataController.addAdmin(city, user, pass);
+    }
 
     /**
      * Adds new show
@@ -71,7 +65,16 @@ public class SystemEngine {
      * @return If succeed returns unique show id (a positive number). Otherwise
      *         return -1.
      */
-    public int addNewShow(String user, String pass, ShowInfo showInfo){throw new UnsupportedOperationException();}
+    public int addNewShow(String user, String pass, ShowInfo showInfo)  {
+        if ( dataController.validateAdminUser(user, pass) && dataController.validateShowCreation(showInfo, user)) {
+            return addShowController.addNewShow(user, pass, showInfo);
+        }
+        else
+        {
+            return -1;
+        }
+
+    }
 
     /**
      * Reserves chairs for Pais members only
@@ -80,7 +83,9 @@ public class SystemEngine {
      * @param from   minimum chair id
      * @param to     maximum chair id
      */
-    public void reserveMemberChairs(int showID, int from, int to){throw new UnsupportedOperationException();}
+    public void reserveMemberChairs(int showID, int from, int to)  {
+        addShowController.reserveMemberChairs(showID, from, to);
+    }
 
     /**
      * Adds new order
@@ -88,7 +93,15 @@ public class SystemEngine {
      * @param order order information
      * @return If succeed return an unique reservation id. Otherwise return -1.
      */
-    public int newOrder(OrderInfo order){throw new UnsupportedOperationException();}
+    public int newOrder(OrderInfo order) {
+        int orderId =  orderSeatsController.newOrder(order , addShowController.getShow(order.showId));
+        if (orderId>0){
+            int showId = order.showId;
+            addShowController.getShow(showId).userstoinform.add(order);
+
+        }
+        return orderId;
+    }
 
     /**
      * Gets waiting orders
@@ -97,5 +110,7 @@ public class SystemEngine {
      * @return If succeed returns the list of waiting orders. Otherwise return empty
      *         list.
      */
-    public List<OrderInfo> getWaitings(int id){throw new UnsupportedOperationException();}
+    public List<OrderInfo> getWaitings(int id){
+        return addShowController.getWaitings(id);
+    }
 }
