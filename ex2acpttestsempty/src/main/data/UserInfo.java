@@ -11,6 +11,7 @@ public class UserInfo {
         this.id = id;
         this.password = password;
         this.cities = new HashSet<>();
+        cities.add(city);
     }
 
     public String getId(){

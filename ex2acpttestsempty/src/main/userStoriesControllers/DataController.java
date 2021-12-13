@@ -1,20 +1,17 @@
 package main.userStoriesControllers;
 
 import main.data.CityInfo;
-import main.data.OrderInfo;
 import main.data.ShowInfo;
 import main.data.UserInfo;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.security.InvalidKeyException;
 import java.util.HashMap;
-import java.util.List;
 
 public class DataController {
     protected String currentLoggedId;
     protected HashMap<String , UserInfo> admins; // id, info
     protected HashMap<String , CityInfo> cities;
-    protected HashMap<Integer, ShowInfo> shows;
     private static DataController instance = null;
 
 
@@ -40,36 +37,58 @@ public class DataController {
 
 
 
-    public void addHall(String city, String hall, int sits) throws InvalidKeyException {
+    public void addHall(String city, String hall, int sits)  {
         if (cities.containsKey(city)){
             cities.get(city).getHalls().put(hall,sits);
         }
         else
         {
-            throw new InvalidKeyException("coudln't add this hall because no such city " + city);
+            return;
         }
     }
 
     public void addAdmin(String city, String user, String pass){
         if (admins.containsKey(user)){
-            throw new KeyAlreadyExistsException(" user: " + user + " is already exist in the system");
+            return;
         }
         if (pass == null ){
-            throw new IllegalArgumentException(" password must be filled");
+            return;
         }
         UserInfo info = new UserInfo(user, pass,city);
         admins.put(user, info );
     }
 
-    /**
-     * Gets waiting orders
-     *
-     * @param id show id
-     * @return If succeed returns the list of waiting orders. Otherwise return empty
-     *         list.
-     */
-    public List<OrderInfo> getWaitings(int id){
-        return shows.get ( id ).getWaitings();
+
+
+    public boolean validateShowCreation(ShowInfo show, String userId ){
+        
+        UserInfo user = admins.get(userId);
+        
+        if (user!= null && cities.containsKey( show.city)  &&
+                user.hasCity(show.city) &&
+                cities.get(show.city).getHalls().containsKey(show.hall) &&
+                show.lastOrderDate < show.showDate &&
+                show.lastOrderDate >0 &&
+                show.ticketCost >0
+        )
+        {
+            if ( !show.hastime){
+                return true;
+            }
+            else {
+                return show.showTime != null;
+            }
+        }
+        else{
+            return false;
+        }
     }
 
+    public boolean validateAdminUser(String user, String pass) {
+        UserInfo cur = admins.get(user);
+        if (cur != null){
+            return cur.getPassword().equals(pass);
+        }
+        return false;
+    }
 }

@@ -31,12 +31,7 @@ public class ShowInfo {
 
 
 	public List<OrderInfo> getWaitings() {
-		List<OrderInfo> waitings = new LinkedList<> (  );
-		for ( OrderInfo cur: userstoinform
-		) {
-
-		}
-		return null;
+		return userstoinform;
 	}
 
 	@Override

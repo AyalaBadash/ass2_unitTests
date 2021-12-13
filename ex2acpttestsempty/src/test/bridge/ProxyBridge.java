@@ -5,7 +5,6 @@ import java.util.List;
 
 import main.data.OrderInfo;
 import main.data.ShowInfo;
-import main.bridge.Bridge;
 
 public class ProxyBridge implements Bridge {
 	private Bridge real = null;
