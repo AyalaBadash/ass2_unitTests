@@ -71,7 +71,7 @@ public class SystemEngine {
      * @return If succeed returns unique show id (a positive number). Otherwise
      *         return -1.
      */
-    int addNewShow(String user, String pass, ShowInfo showInfo){throw new UnsupportedOperationException();}
+    public int addNewShow(String user, String pass, ShowInfo showInfo){throw new UnsupportedOperationException();}
 
     /**
      * Reserves chairs for Pais members only
@@ -80,7 +80,7 @@ public class SystemEngine {
      * @param from   minimum chair id
      * @param to     maximum chair id
      */
-    void reserveMemberChairs(int showID, int from, int to){throw new UnsupportedOperationException();}
+    public void reserveMemberChairs(int showID, int from, int to){throw new UnsupportedOperationException();}
 
     /**
      * Adds new order
@@ -88,7 +88,7 @@ public class SystemEngine {
      * @param order order information
      * @return If succeed return an unique reservation id. Otherwise return -1.
      */
-    int newOrder(OrderInfo order){throw new UnsupportedOperationException();}
+    public int newOrder(OrderInfo order){throw new UnsupportedOperationException();}
 
     /**
      * Gets waiting orders
@@ -97,5 +97,5 @@ public class SystemEngine {
      * @return If succeed returns the list of waiting orders. Otherwise return empty
      *         list.
      */
-    List<OrderInfo> getWaitings(int id){throw new UnsupportedOperationException();}
+    public List<OrderInfo> getWaitings(int id){throw new UnsupportedOperationException();}
 }
