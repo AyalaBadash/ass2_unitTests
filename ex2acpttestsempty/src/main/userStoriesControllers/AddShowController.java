@@ -2,9 +2,6 @@ package main.userStoriesControllers;
 
 import main.data.OrderInfo;
 import main.data.ShowInfo;
-import main.data.UserInfo;
-
-import java.security.InvalidKeyException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,8 +33,10 @@ public class AddShowController {
      */
     public void reserveMemberChairs(int showID, int from, int to)  {
         ShowInfo showInfo = shows.get ( showID );
+        if(showInfo == null)
+            return;
         ShowInfo.State[] seats = showInfo.getSeats ();
-        if(to > seats.length + 1)
+        if(to > seats.length)
             return;
         if(from < 1 || to < 1)
             return;
@@ -57,8 +56,7 @@ public class AddShowController {
      * @return the id of the created show
      * @throws
      */
-    public int addNewShow(String user, String pass,  ShowInfo showInfo)  {
-        UserInfo userInfo  = DataController.getInstance ().admins.get(user);
+    public int addNewShow(ShowInfo showInfo)  {
         showInfo.id = nextShowId;;
         shows.put(nextShowId,showInfo);
         showInfo.initialSeats ( DataController.getInstance ().cities.get (showInfo.city).getHalls ().get ( showInfo.hall ) );

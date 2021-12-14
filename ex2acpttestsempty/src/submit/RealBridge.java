@@ -67,7 +67,7 @@ public class RealBridge implements Bridge {
      */
     public int addNewShow(String user, String pass, ShowInfo showInfo)  {
         if ( dataController.validateAdminUser(user, pass) && dataController.validateShowCreation(showInfo, user)) {
-            return addShowController.addNewShow(user, pass, showInfo);
+            return addShowController.addNewShow(showInfo);
         }
         else
         {
@@ -97,7 +97,7 @@ public class RealBridge implements Bridge {
         int orderId =  orderSeatsController.newOrder(order , addShowController.getShow(order.showId));
         if (orderId>0){
             int showId = order.showId;
-            addShowController.getShow(showId).userstoinform.add(order);
+            addShowController.getShow(showId).addOrder(order);
 
         }
         return orderId;

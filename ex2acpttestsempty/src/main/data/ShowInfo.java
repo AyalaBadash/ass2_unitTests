@@ -25,6 +25,13 @@ public class ShowInfo {
 		showTime = null;
 	}
 
+	public void addOrder(OrderInfo order) {
+		for ( OrderInfo cur : userstoinform )
+			if(cur.name.equals (order.name))
+				return;
+		userstoinform.add ( order );
+	}
+
 	public enum State {
 		reserved, VIP, free, temp
 	}

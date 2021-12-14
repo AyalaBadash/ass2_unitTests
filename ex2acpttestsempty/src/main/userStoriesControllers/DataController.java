@@ -4,8 +4,9 @@ import main.data.CityInfo;
 import main.data.ShowInfo;
 import main.data.UserInfo;
 
-import javax.management.openmbean.KeyAlreadyExistsException;
-import java.security.InvalidKeyException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 
 public class DataController {
@@ -41,10 +42,6 @@ public class DataController {
         if (cities.containsKey(city)){
             cities.get(city).getHalls().put(hall,sits);
         }
-        else
-        {
-            return;
-        }
     }
 
     public void addAdmin(String city, String user, String pass){
@@ -63,13 +60,13 @@ public class DataController {
     public boolean validateShowCreation(ShowInfo show, String userId ){
         
         UserInfo user = admins.get(userId);
-        
+
         if (user!= null && cities.containsKey( show.city)  &&
                 user.hasCity(show.city) &&
                 cities.get(show.city).getHalls().containsKey(show.hall) &&
                 show.lastOrderDate < show.showDate &&
-                show.lastOrderDate >0 &&
-                show.ticketCost >0
+                Instant.ofEpochMilli(show.lastOrderDate).atZone( ZoneId.systemDefault()).toLocalDate().isAfter (LocalDate.now ()) &&
+                show.ticketCost > 0
         )
         {
             if ( !show.hastime){
