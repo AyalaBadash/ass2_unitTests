@@ -2,7 +2,7 @@ package submit;
 
 import main.data.OrderInfo;
 import main.data.ShowInfo;
-import test.bridge.Bridge;
+import main.bridge.Bridge;
 
 import java.util.List;
 

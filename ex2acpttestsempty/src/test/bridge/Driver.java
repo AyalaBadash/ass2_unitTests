@@ -1,5 +1,7 @@
 package test.bridge;
 
+import main.bridge.Bridge;
+
 public abstract class Driver {
 
 	public static Bridge getBridge() {

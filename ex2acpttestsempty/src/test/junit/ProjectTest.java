@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import test.bridge.Driver;
-import test.bridge.Bridge;
+import main.bridge.Bridge;
 import main.data.OrderInfo;
 import main.data.ShowInfo;
 

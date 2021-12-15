@@ -1,4 +1,4 @@
-package test.bridge;
+package main.bridge;
 
 import java.util.List;
 

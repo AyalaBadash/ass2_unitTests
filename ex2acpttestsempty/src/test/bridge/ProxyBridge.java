@@ -3,6 +3,7 @@ package test.bridge;
 import java.util.LinkedList;
 import java.util.List;
 
+import main.bridge.Bridge;
 import main.data.OrderInfo;
 import main.data.ShowInfo;
 
