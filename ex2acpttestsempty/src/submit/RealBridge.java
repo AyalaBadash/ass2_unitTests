@@ -2,9 +2,6 @@ package submit;
 
 import main.data.OrderInfo;
 import main.data.ShowInfo;
-import main.userStoriesControllers.AddShowController;
-import main.userStoriesControllers.DataController;
-import main.userStoriesControllers.OrderSeatsController;
 import test.bridge.Bridge;
 
 import java.util.List;
@@ -94,10 +91,10 @@ public class RealBridge implements Bridge {
      * @return If succeed return an unique reservation id. Otherwise return -1.
      */
     public int newOrder(OrderInfo order) {
-        int orderId =  orderSeatsController.newOrder(order , addShowController.getShow(order.showId));
+        int orderId =  orderSeatsController.newOrder(order , addShowController.getCoverShow(order.showId));
         if (orderId>0){
             int showId = order.showId;
-            addShowController.getShow(showId).addOrder(order);
+            addShowController.getCoverShow(showId).addOrder(order);
 
         }
         return orderId;

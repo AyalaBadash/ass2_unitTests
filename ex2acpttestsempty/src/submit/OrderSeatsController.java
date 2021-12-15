@@ -1,4 +1,4 @@
-package main.userStoriesControllers;
+package submit;
 
 import main.data.OrderInfo;
 import main.data.ShowInfo;
@@ -28,7 +28,8 @@ public class OrderSeatsController {
      * @param order order information
      * @return If succeed return an unique reservation id. Otherwise return -1.
      */
-    public int newOrder(OrderInfo order, ShowInfo curShow)  {
+    public int newOrder(OrderInfo order, Show curShow)  {
+
         if (curShow != null){
             if(!validateOrder(order, curShow))
                 return -1;
@@ -49,8 +50,8 @@ public class OrderSeatsController {
         return -1;
     }
 
-    private boolean validateOrder(OrderInfo order, ShowInfo showInfo) {
-        if(LocalDate.now ().isAfter ( Instant.ofEpochMilli(showInfo.lastOrderDate).atZone( ZoneId.systemDefault()).toLocalDate()))
+    private boolean validateOrder(OrderInfo order, Show show) {
+        if(LocalDate.now ().isAfter ( Instant.ofEpochMilli(show.getRelatedShowInfo().lastOrderDate).atZone( ZoneId.systemDefault()).toLocalDate()))
             return false;
         if(order.chairsIds == null || order.chairsIds.length == 0 || order.name == null || order.phone == null)
             return false;

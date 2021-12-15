@@ -1,15 +1,16 @@
-package main.userStoriesControllers;
+package submit;
 
 import main.data.OrderInfo;
 import main.data.ShowInfo;
+
 import java.util.HashMap;
 import java.util.List;
 
-import static main.data.ShowInfo.State;
+
 
 public class AddShowController {
     private int nextShowId;
-    HashMap<Integer, ShowInfo> shows ;// id, info
+    HashMap<Integer, Show> shows ;// id, info
     private static  AddShowController instance = null;
 
     private AddShowController(){
@@ -32,10 +33,10 @@ public class AddShowController {
      * @param to     maximum chair id
      */
     public void reserveMemberChairs(int showID, int from, int to)  {
-        ShowInfo showInfo = shows.get ( showID );
+        Show showInfo = shows.get ( showID );
         if(showInfo == null)
             return;
-        ShowInfo.State[] seats = showInfo.getSeats ();
+        Show.State[] seats = showInfo.getSeats ();
         if(to > seats.length)
             return;
         if(from < 1 || to < 1)
@@ -44,8 +45,8 @@ public class AddShowController {
             return;
         }
         for(int i = from; i < to; i ++){
-            if (seats[i] == State.free)
-                seats[i] = State.VIP;
+            if (seats[i] == Show.State.free)
+                seats[i] = Show.State.VIP;
         }
         showInfo.setSeats ( seats );
     }
@@ -57,11 +58,12 @@ public class AddShowController {
      * @throws
      */
     public int addNewShow(ShowInfo showInfo)  {
-        showInfo.id = nextShowId;;
-        shows.put(nextShowId,showInfo);
-        showInfo.initialSeats ( DataController.getInstance ().cities.get (showInfo.city).getHalls ().get ( showInfo.hall ) );
+        Show show = new Show(showInfo);
+        show.id = nextShowId;;
+        shows.put(nextShowId,show);
+        show.initialSeats ( DataController.getInstance ().cities.get (show.getRelatedShowInfo().city).getHalls ().get ( showInfo.hall ) );
         nextShowId++;
-        return showInfo.id;
+        return show.id;
 
 
     }
@@ -79,7 +81,11 @@ public class AddShowController {
 
 
     public ShowInfo getShow(int showId) {
-        return shows.get(showId);
+        return shows.get(showId).getRelatedShowInfo();
     }
 
+    public Show getCoverShow(int showId) {
+        return shows.get(showId);
+
+    }
 }

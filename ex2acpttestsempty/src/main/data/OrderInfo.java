@@ -8,7 +8,6 @@ public class OrderInfo {
 	public String phone;
 	public int[] chairsIds;
 	public int memberId;
-	public int orderId;
 
 	@Override
 	public String toString() {
